@@ -26,7 +26,7 @@ const io = new Server(httpServer, {
 // データ管理
 const connectedUsers = new Map(); // socketId -> userInfo
 const chatRooms = new Map();      // roomId -> roomInfo
-const adminUsers = new Set(['Global', 'TargetEntertainment']); // 管理者ID
+//const adminUsers = new Set(['Global', 'TargetEntertainment', 'Global_event5']); // 管理者ID
 
 // Socket.IOのイベントハンドラ
 io.on('connection', (socket) => {
@@ -38,7 +38,7 @@ io.on('connection', (socket) => {
       ...userData,
       socketId: socket.id,
       joinedAt: Date.now(),
-      isAdmin: adminUsers.has(userData.userId)
+      //isAdmin: adminUsers.has(userData.userId)
     };
     
     connectedUsers.set(socket.id, userInfo);
