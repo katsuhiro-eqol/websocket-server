@@ -30,8 +30,6 @@ const chatRooms = new Map();      // roomId -> roomInfo
 
 // Socket.IOのイベントハンドラ
 io.on('connection', (socket) => {
-  console.log('User connected:', socket.id);
-
   // ユーザー登録
   socket.on('register', (userData) => {
     const userInfo = {
@@ -40,6 +38,7 @@ io.on('connection', (socket) => {
       joinedAt: Date.now(),
       //isAdmin: adminUsers.has(userData.userId)
     };
+    console.log(userInfo)
     
     connectedUsers.set(socket.id, userInfo);
     
