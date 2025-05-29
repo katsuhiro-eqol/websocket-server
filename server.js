@@ -59,12 +59,13 @@ io.on('connection', (socket) => {
   socket.on('startSupportChat', (data) => {
     const user = connectedUsers.get(socket.id)
     if (!user || user.isAdmin) return
+    console.log("user", user)
 
     const roomId = `support_${socket.id}_${Date.now()}`
     const chatRoom = {
       id: roomId,
       socketId: socket.id,
-      userId: user.id,
+      userId: user.userId,
       username: user.username,
       adminId: null,
       adminName: null,
