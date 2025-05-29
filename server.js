@@ -45,11 +45,11 @@ io.on('connection', (socket) => {
     if (userInfo.isAdmin) {
         if (userInfo.userId){
             socket.join(`admins_${userInfo.userId}`);
-        } else {
-            socket.join("admins");
         }
+        console.log(chatRooms)
       const waitingRooms = Array.from(chatRooms.values())
         .filter(room => room.userId === userInfo.userId && room.status === 'waiting');
+        console.log("waitingRooms", waitingRooms)
       socket.emit('waitingChatRooms', waitingRooms);
     }
     
@@ -81,6 +81,7 @@ io.on('connection', (socket) => {
     }
 
     chatRooms.set(roomId, chatRoom)
+    console.log(chatRooms)
     socket.join(roomId)
 
     // ユーザーにルーム作成を通知
@@ -91,14 +92,10 @@ io.on('connection', (socket) => {
 
     // 全管理者に新しいサポート要求を通知
     //socket.to("admins").emit('newSupportRequest', chatRoom)
+    //userId(eventId)が一致するadminに通知
     if (user.userId){
         socket.to(`admins_${user.userId}`).emit('newSupportRequest', chatRoom)
-        console.log("eventIdでchatを要請")
-    } else {
-        socket.to("admins").emit('newSupportRequest', chatRoom)
-        console.log("管理者全員に対してchatを要請")
     }
-    
   })
 
   // 管理者がサポートチャットに参加
