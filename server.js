@@ -63,7 +63,7 @@ io.on('connection', (socket) => {
     const roomId = `support_${socket.id}_${Date.now()}`
     const chatRoom = {
       id: roomId,
-      socketId: socket,id,
+      socketId: socket.id,
       userId: user.id,
       username: user.username,
       adminId: null,
