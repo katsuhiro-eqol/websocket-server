@@ -131,7 +131,7 @@ io.on('connection', (socket) => {
     socket.emit('chatHistory', chatRoom.messages)
 
     // 他の管理者に取得済みを通知
-    socket.to('admins').emit('supportTaken', { roomId, adminName: admin.username })
+    socket.to(`admins_${admin.userId}`).emit('supportTaken', { roomId, adminName: admin.username })
   })
 
   // チャットメッセージ送信
@@ -143,7 +143,7 @@ io.on('connection', (socket) => {
     if (!user || !chatRoom) return
 
     // ユーザーがこのルームのメンバーかチェック
-    if (chatRoom.userId !== socket.id && chatRoom.adminId !== socket.id) {
+    if (chatRoom.socketId !== socket.id && chatRoom.adminId !== socket.id) {//20250530変更
       socket.emit('error', { message: '権限がありません' })
       return
     }
@@ -174,7 +174,7 @@ io.on('connection', (socket) => {
     if (!user || !chatRoom) return
 
     // 権限チェック（管理者またはチャットの当事者）
-    if (!user.isAdmin && chatRoom.userId !== socket.id) return
+    if (chatRoom.userId !== user.userId && chatRoom.socketId !== socket.id) return
 
     chatRoom.status = 'closed'
     chatRoom.closedAt = Date.now()
@@ -194,7 +194,7 @@ io.on('connection', (socket) => {
     if (!user || !user.isAdmin) return
 
     const waitingRooms = Array.from(chatRooms.values())
-      .filter(room => room.status === 'waiting')
+      .filter(room => room.userId === user.userId && room.status === 'waiting')
     socket.emit('waitingChatRooms', waitingRooms)
   })
 
@@ -206,7 +206,7 @@ io.on('connection', (socket) => {
       
       // アクティブなチャットがある場合の処理
       const activeChat = Array.from(chatRooms.values())
-        .find(room => (room.userId === socket.id || room.adminId === socket.id) && room.status === 'active')
+        .find(room => (room.socketId === socket.id || room.adminId === socket.id) && room.status === 'active')
       
       if (activeChat) {
         if (user.isAdmin) {
@@ -218,7 +218,7 @@ io.on('connection', (socket) => {
             message: '管理者が切断されました。別の管理者をお待ちください。'
           })
           // 他の管理者に再度通知
-          socket.to('admins').emit('newSupportRequest', activeChat)
+          socket.to(`admins_${user.userId}`).emit('newSupportRequest', activeChat)
         } else {
           // ユーザーが切断した場合
           activeChat.status = 'closed'
