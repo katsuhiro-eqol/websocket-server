@@ -41,6 +41,7 @@ io.on('connection', (socket) => {
     console.log(userInfo)
     
     connectedUsers.set(socket.id, userInfo);
+    socket.emit("registerd")
     
     if (userInfo.isAdmin) {
         if (userInfo.userId){
