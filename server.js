@@ -228,6 +228,14 @@ io.on('connection', (socket) => {
           })
         }
         chatRooms.set(activeChat.id, activeChat)
+
+        const waitingChat = Array.from(chatRooms.values())
+        .find(room => room.socketId === socket.id && room.status === 'waiting')
+
+        if (waitingChat) {
+            chatRooms.delete(waitingChat[0].id)
+        }
+        console.log(chatRooms)
       }
     }
     console.log('User disconnected:', socket.id)
