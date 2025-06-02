@@ -229,10 +229,11 @@ io.on('connection', (socket) => {
         }
         chatRooms.set(activeChat.id, activeChat)
       }
+      io.to(`support_${socket.id}}`).emit('userDisconnected')
+      chatRooms.delete(`support_${socket.id}}`)
+      console.log(`support_${socket.id}}`)
+      console.log("chatRooms",chatRooms)
     }
-    chatRooms.delete(`support_${socket.id}}`)
-    console.log(`support_${socket.id}}`)
-    console.log("chatRooms",chatRooms)
     console.log('User disconnected:', socket.id)
   })
 });
