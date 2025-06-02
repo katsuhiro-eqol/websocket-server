@@ -231,11 +231,13 @@ io.on('connection', (socket) => {
 
         const waitingChat = Array.from(chatRooms.values())
         .find(room => room.socketId === socket.id && room.status === 'waiting')
+        console.log("targetRoom", waitingChat)
+        console.log("targetRoom[0]", waitingChat[0].id)
 
         if (waitingChat) {
             chatRooms.delete(waitingChat[0].id)
         }
-        console.log(chatRooms)
+        console.log("chatRooms",chatRooms)
       }
     }
     console.log('User disconnected:', socket.id)
