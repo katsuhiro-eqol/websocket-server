@@ -62,7 +62,7 @@ io.on('connection', (socket) => {
     if (!user || user.isAdmin) return
     console.log("user", user)
 
-    const roomId = `support_${socket.id}_${Date.now()}`
+    const roomId = `support_${socket.id}}`
     const chatRoom = {
       id: roomId,
       socketId: socket.id,
@@ -229,14 +229,8 @@ io.on('connection', (socket) => {
         }
         chatRooms.set(activeChat.id, activeChat)
 
-        const waitingChat = Array.from(chatRooms.values())
-        .find(room => room.socketId === socket.id && room.status === 'waiting')
-        console.log("targetRoom", waitingChat)
-        console.log("targetRoom[0]", waitingChat[0].id)
-
-        if (waitingChat) {
-            chatRooms.delete(waitingChat[0].id)
-        }
+        chatRooms.delete(`support_${socket.id}}`)
+        console.log(`support_${socket.id}}`)
         console.log("chatRooms",chatRooms)
       }
     }
