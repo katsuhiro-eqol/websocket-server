@@ -228,9 +228,9 @@ io.on('connection', (socket) => {
           })
         }
         chatRooms.set(activeChat.id, activeChat)
+        chatRooms.delete(`support_${socket.id}}`)
+        io.to(`support_${socket.id}}`).emit('userDisconnected')
       }
-      io.to(`support_${socket.id}}`).emit('userDisconnected')
-      chatRooms.delete(`support_${socket.id}}`)
       console.log(`support_${socket.id}}`)
       console.log("chatRooms",chatRooms)
     }
