@@ -77,7 +77,7 @@ io.on('connection', (socket) => {
         text: data.initialMessage || 'サポートが必要です',
         senderId: socket.id,
         senderName: data.senderName,
-        langCode: data.langCode,
+        language: data.language,
         timestamp: Date.now(),
         type: 'user'
       }]
@@ -135,7 +135,7 @@ io.on('connection', (socket) => {
 
   // チャットメッセージ送信
   socket.on('sendChatMessage', (data) => {
-    const { roomId, text, senderName, langCode } = data
+    const { roomId, text, senderName, language } = data
     const user = connectedUsers.get(socket.id)
     const chatRoom = chatRooms.get(roomId)
 
@@ -152,7 +152,7 @@ io.on('connection', (socket) => {
       text,
       senderId: socket.id,
       senderName,
-      langCode:langCode,
+      language:language,
       timestamp: Date.now(),
       type: user.isAdmin ? 'admin' : 'user'
     }
