@@ -76,7 +76,7 @@ io.on('connection', (socket) => {
         id: Date.now().toString(),
         text: data.initialMessage || 'サポートが必要です',
         senderId: socket.id,
-        senderName: data.initialMessage.senderName,
+        senderName: data.senderName,
         timestamp: Date.now(),
         type: 'user'
       }]
