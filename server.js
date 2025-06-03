@@ -137,7 +137,7 @@ io.on('connection', (socket) => {
 
   // チャットメッセージ送信
   socket.on('sendChatMessage', (data) => {
-    const { roomId, text } = data
+    const { roomId, text, senderName } = data
     const user = connectedUsers.get(socket.id)
     const chatRoom = chatRooms.get(roomId)
 
@@ -153,7 +153,7 @@ io.on('connection', (socket) => {
       id: Date.now().toString(),
       text,
       senderId: socket.id,
-      //senderName: user.username,
+      senderName,
       timestamp: Date.now(),
       type: user.isAdmin ? 'admin' : 'user'
     }
