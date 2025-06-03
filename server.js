@@ -76,7 +76,7 @@ io.on('connection', (socket) => {
         id: Date.now().toString(),
         text: data.initialMessage || 'サポートが必要です',
         senderId: socket.id,
-        senderName: data.senderName,
+        senderName: data.initialMessage.senderName,
         timestamp: Date.now(),
         type: 'user'
       }]
@@ -153,7 +153,7 @@ io.on('connection', (socket) => {
       id: Date.now().toString(),
       text,
       senderId: socket.id,
-      senderName: user.username,
+      //senderName: user.username,
       timestamp: Date.now(),
       type: user.isAdmin ? 'admin' : 'user'
     }
