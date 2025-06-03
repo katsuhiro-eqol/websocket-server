@@ -77,6 +77,7 @@ io.on('connection', (socket) => {
         text: data.initialMessage || 'サポートが必要です',
         senderId: socket.id,
         senderName: data.senderName,
+        langCode: data.langCode,
         timestamp: Date.now(),
         type: 'user'
       }]
@@ -92,9 +93,6 @@ io.on('connection', (socket) => {
       message: 'スタッフにメッセージを送信しました。応答をお待ちください。'
     })
 
-    // 全管理者に新しいサポート要求を通知
-    //socket.to("admins").emit('newSupportRequest', chatRoom)
-    //userId(eventId)が一致するadminに通知
     if (user.userId){
         socket.to(`admins_${user.userId}`).emit('newSupportRequest', chatRoom)
     }
@@ -137,7 +135,7 @@ io.on('connection', (socket) => {
 
   // チャットメッセージ送信
   socket.on('sendChatMessage', (data) => {
-    const { roomId, text, senderName } = data
+    const { roomId, text, senderName, langCode } = data
     const user = connectedUsers.get(socket.id)
     const chatRoom = chatRooms.get(roomId)
 
@@ -154,6 +152,7 @@ io.on('connection', (socket) => {
       text,
       senderId: socket.id,
       senderName,
+      langCode:langCode,
       timestamp: Date.now(),
       type: user.isAdmin ? 'admin' : 'user'
     }
