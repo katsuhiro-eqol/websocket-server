@@ -79,6 +79,7 @@ io.on('connection', (socket) => {
         senderName: data.senderName,
         language: data.language,
         timestamp: Date.now(),
+        foreign: data.foreign,
         type: 'user'
       }]
     }
@@ -135,7 +136,7 @@ io.on('connection', (socket) => {
 
   // チャットメッセージ送信
   socket.on('sendChatMessage', (data) => {
-    const { roomId, text, senderName, language } = data
+    const { roomId, text, senderName, language, foreign } = data
     const user = connectedUsers.get(socket.id)
     const chatRoom = chatRooms.get(roomId)
 
@@ -154,6 +155,7 @@ io.on('connection', (socket) => {
       senderName,
       language:language,
       timestamp: Date.now(),
+      foreign: foreign,
       type: user.isAdmin ? 'admin' : 'user'
     }
 
