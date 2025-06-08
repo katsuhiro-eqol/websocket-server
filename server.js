@@ -153,9 +153,9 @@ io.on('connection', (socket) => {
       text,
       senderId: socket.id,
       senderName,
-      language:language,
+      language,
       timestamp: Date.now(),
-      translated: translated,
+      translated,
       type: user.isAdmin ? 'admin' : 'user'
     }
 
